@@ -1,8 +1,16 @@
 package com.naman.rest.webservices.restfulwebservices.users;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
 import java.time.LocalDate;
 
+@Entity
 public class User {
+
+    @Id
+    @GeneratedValue
     private int id;
     private String name;
     private LocalDate birthDate;

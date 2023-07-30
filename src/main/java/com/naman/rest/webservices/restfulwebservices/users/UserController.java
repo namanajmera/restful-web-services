@@ -12,28 +12,38 @@ public class UserController {
 
     private UserDaoService userDaoService;
 
-    public UserController(UserDaoService userDaoService) {
+    private UsersRepository usersRepository;
+
+    public UserController(UserDaoService userDaoService, UsersRepository usersRepository) {
         this.userDaoService = userDaoService;
+        this.usersRepository = usersRepository;
     }
 
     @GetMapping("/users")
     public List<User> retrieveAllUsers() {
-        return userDaoService.findAll();
+        return usersRepository.findAll();
+//        return userDaoService.findAll();
     }
 
     @GetMapping("/users/{id}")
     public User getUserById(@PathVariable int id) {
-        return userDaoService.findById(id);
+        User user = usersRepository.findById(id).orElse(null);
+        if (user == null) {
+            throw new UserNotFoundException("id:" + id);
+        }
+        return user;
+
     }
 
     @PostMapping("/users")
     public ResponseEntity<Object> createUser(@RequestBody User user) {
-        User saved = userDaoService.save(user);
+        User saved = usersRepository.save(user);
+//        User saved = userDaoService.save(user);
         URI location = ServletUriComponentsBuilder
-                        .fromCurrentRequest()
-                        .path("/{id}")
-                        .buildAndExpand(saved.getId())
-                        .toUri();
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(saved.getId())
+                .toUri();
         return ResponseEntity.created(location).build();
     }
 }
