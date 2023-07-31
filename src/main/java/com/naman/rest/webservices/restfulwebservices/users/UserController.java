@@ -13,19 +13,16 @@ import java.util.List;
 @RestController
 public class UserController {
 
-    private UserDaoService userDaoService;
 
     private UsersRepository usersRepository;
 
-    public UserController(UserDaoService userDaoService, UsersRepository usersRepository) {
-        this.userDaoService = userDaoService;
+    public UserController(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
     }
 
     @GetMapping("/users")
     public List<User> retrieveAllUsers() {
         return usersRepository.findAll();
-//        return userDaoService.findAll();
     }
 
     @GetMapping("/users/{id}")
