@@ -84,4 +84,15 @@ public class UserController {
                 .toUri();
         return ResponseEntity.created(location).build();
     }
+
+    @DeleteMapping("/users/{id}/posts")
+    public void deleteAllPostByUserId(@PathVariable int id){
+        Optional<User> user = usersRepository.findById(id);
+        if(user.isEmpty())
+            throw new UserNotFoundException("id: " + id);
+        List<Post> postList = user.get().getPosts();
+        for (Post post: postList){
+            postRepository.deleteById(post.getId());
+        }
+    }
 }
