@@ -1,5 +1,6 @@
 package com.naman.rest.webservices.restfulwebservices.users;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -17,9 +18,11 @@ public class User {
     private int id;
 
     @Size(min = 2, message = "Name should have at least 2 Character")
+    @JsonProperty("user_name")
     private String name;
 
     @Past(message = "BirthDate should have past date")
+    @JsonProperty("birth_date")
     private LocalDate birthDate;
 
     public User() {
